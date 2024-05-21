@@ -1,17 +1,19 @@
 import jwt from 'jsonwebtoken'
+
+import User from '../models/user.js'
 import ActiveSession from '../models/activeSession.js'
 
 const SECRET = process.env.SECRET
 
-//token extractor
-export const tokenExtractor = (req, res, next) => {
+export const validSessionToken = async (req, res, next) => {
 	const authorization = req.get('authorization')
 	if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
 		try {
-			console.log(authorization.substring(7))
-			req.decodedToken = jwt.verify(authorization.substring(7), SECRET)
+			const token = authorization.substring(7)
+			const session = await ActiveSession.findOne({ token })
+
+			req.validSessionToken = session
 		} catch (error) {
-			console.log(error)
 			return res.status(401).json({ error: 'token invalid' })
 		}
 	} else {
@@ -21,16 +23,27 @@ export const tokenExtractor = (req, res, next) => {
 	next()
 }
 
-export const validToken = async (req, res, next) => {
+export const userExtractor = async (req, res, next) => {
 	const authorization = req.get('authorization')
 	if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+		const token = authorization.substring(7)
 		try {
-			console.log(authorization.substring(7))
-			const token = authorization.substring(7)
-			req.validToken = token
+			const decodedToken = jwt.verify(token, SECRET)
+
+			if (!decodedToken.id) {
+				return res.status(401).json({ error: 'Invalid token' })
+			}
+
+			const userId = decodedToken.id
+			const user = await User.findById(userId)
+
+			if (!user) {
+				return res.status(401).json({ error: 'User not found' })
+			}
+
+			req.user = user
 		} catch (error) {
-			console.log(error)
-			return res.status(401).json({ error: 'token invalid' })
+			return res.status(401).json({ error: 'Invalid token' })
 		}
 	} else {
 		return res.status(401).json({ error: 'token missing' })
