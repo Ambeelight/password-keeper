@@ -7,6 +7,7 @@ const router = express.Router()
 
 router.post('/', async (req, res) => {
 	const { username, password } = req.body
+	const ROUNDS = Number(process.env.SALT_ROUNDS)
 
 	if (username.length < 3) {
 		return res
@@ -14,7 +15,7 @@ router.post('/', async (req, res) => {
 			.json({ error: 'Username should have at least 3 symbols' })
 	}
 
-	const checkName = User.findOne({ username })
+	const checkName = await User.findOne({ username })
 
 	if (checkName) {
 		return res.status(401).json({ error: 'Username should be unique' })
@@ -26,15 +27,14 @@ router.post('/', async (req, res) => {
 			.json({ error: 'Password should have at least 6 symbols' })
 	}
 
-	const saltRounds = 10
-	const passwordHash = await bcrypt.hash(password, saltRounds)
+	const passwordHash = await bcrypt.hash(password, ROUNDS)
 
 	const user = new User({
 		username,
 		passwordHash,
 	})
 
-	const savedUser = user.save()
+	const savedUser = await user.save()
 
 	console.log('User created', user)
 	res.status(201).json(savedUser)

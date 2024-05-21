@@ -1,25 +1,19 @@
 import express from 'express'
 
-import activeSession from '../models/activeSession.js'
-import { tokenExtractor, validToken } from '../utils/middleware.js'
+import { validSessionToken } from '../utils/middleware.js'
 
 const router = express.Router()
 
-router.delete('/', tokenExtractor, validToken, async (req, res) => {
-	const token = req.validToken
+router.delete('/', validSessionToken, async (req, res) => {
+	const token = req.validSessionToken
 	console.log('LogOutToken', token)
 
 	if (token) {
-		const session = await activeSession.findOne({ token })
-		console.log('SessionToken', session)
+		console.log('SessionToken', token)
 
-		if (session) {
-			await session.deleteOne()
-			res.status(200).json({ message: 'You have logged out' })
-			console.log('You have logged out')
-		} else {
-			res.status(401).json({ error: 'session not found' })
-		}
+		await token.deleteOne()
+		res.status(200).json({ message: 'You have logged out' })
+		console.log('You have logged out')
 	} else {
 		res.status(401).json({ error: 'token invalid' })
 	}

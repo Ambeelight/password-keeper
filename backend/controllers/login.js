@@ -24,9 +24,9 @@ router.post('/', async (req, res) => {
 		id: user.id,
 	}
 
-	const token = jwt.sign(userForToken, SECRET, { expiresIn: '15m' })
+	const token = jwt.sign(userForToken, SECRET, { expiresIn: '45m' })
 
-	const expiresAt = new Date(Date.now() + 15 * 60 * 1000)
+	const expiresAt = new Date(Date.now() + 45 * 60 * 1000)
 	const newSession = new ActiveSession({ token, expiresAt })
 	newSession.save()
 

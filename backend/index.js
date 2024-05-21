@@ -9,6 +9,7 @@ import { MONGODB_URI } from './utils/config.js'
 import loginRouter from './controllers/login.js'
 import logoutRouter from './controllers/logout.js'
 import userRouter from './controllers/users.js'
+import storageRouter from './controllers/storage.js'
 
 const app = express()
 
@@ -28,7 +29,7 @@ app.use(express.json())
 app.use('/api/login', loginRouter)
 app.use('/api/logout', logoutRouter)
 app.use('/api/signUp', userRouter)
-// app.use('/api/storage', storage)
+app.use('/api/storage', storageRouter)
 
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`)
