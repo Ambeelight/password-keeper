@@ -34,20 +34,21 @@ router.post('/', validSessionToken, userExtractor, async (req, res) => {
 		return res.status(400).json({ error: 'Password is missing' })
 	}
 
-	if (session) {
-		const encryptedPassword = encrypt(password)
+	if (!session) {
+		res.status(401).json({ message: 'Your token has been expired' })
+	}
+	const encryptedPassword = encrypt(password)
 
-		const newPassword = new Password({
-			name,
-			description,
-			password: encryptedPassword,
-			userId: user.id,
-		})
+	const newPassword = new Password({
+		name,
+		description,
+		password: encryptedPassword,
+		userId: user.id,
+	})
 
-		const savedPassword = await newPassword.save()
+	const savedPassword = await newPassword.save()
 
-		res.status(201).json(savedPassword)
-	} else res.status(401).json({ message: 'Your token has been expired' })
+	res.status(201).json(savedPassword)
 })
 
 router.put('/:id', validSessionToken, async (req, res) => {
