@@ -28,7 +28,7 @@ app.use(express.json())
 
 app.use('/api/login', loginRouter)
 app.use('/api/logout', logoutRouter)
-app.use('/api/signUp', userRouter)
+app.use('/api/user', userRouter)
 app.use('/api/storage', storageRouter)
 
 app.listen(PORT, () => {

@@ -5,7 +5,7 @@ import User from '../models/user.js'
 
 const router = express.Router()
 
-router.post('/', async (req, res) => {
+router.post('/signup', async (req, res) => {
 	const { username, password } = req.body
 	const ROUNDS = Number(process.env.SALT_ROUNDS)
 
