@@ -1,15 +1,17 @@
 import crypto from 'crypto'
 
 const algorithm = 'aes-256-ctr'
-const secretKey = crypto.randomBytes(16).toString('hex')
-const iv = crypto.randomBytes(16)
+const secretKey = process.env.ENCRYPTION_KEY
 
-if (secretKey.length !== 32) {
-	throw new Error('Invalid ENCRYPTION_KEY length. Must be 32 bytes.')
+if (!secretKey || secretKey.length !== 64) {
+	throw new Error('Invalid secretKey length. Must be 32 bytes')
 }
 
+const keyBuffer = Buffer.from(secretKey, 'hex')
+
 export const encrypt = (text) => {
-	const cipher = crypto.createCipheriv(algorithm, Buffer.from(secretKey), iv)
+	const iv = crypto.randomBytes(16)
+	const cipher = crypto.createCipheriv(algorithm, keyBuffer, iv)
 	const encrypted = Buffer.concat([cipher.update(text), cipher.final()])
 
 	return {
@@ -21,7 +23,7 @@ export const encrypt = (text) => {
 export const decrypt = (hash) => {
 	const decipher = crypto.createDecipheriv(
 		algorithm,
-		Buffer.from(secretKey),
+		Buffer.from(secretKey, 'hex'),
 		Buffer.from(hash.iv, 'hex')
 	)
 	const decrypted = Buffer.concat([
