@@ -7,14 +7,14 @@ let headers = null
 const setToken = (newToken) => {
 	token = `Bearer ${newToken}`
 	headers = {
-		Authorization: token,
+		authorization: token,
 	}
 }
 
-const logout = async (object) => {
-	const response = axios.delete(`${baseUrl}/${object.id}`, { headers })
+const logout = async () => {
+	const response = await axios.delete(baseUrl, { headers })
 
 	return response.data
 }
 
-export { logout, setToken }
+export default { logout, setToken }
