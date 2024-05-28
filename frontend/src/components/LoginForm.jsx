@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 
 import loginService from '../services/login'
@@ -61,6 +61,9 @@ const LoginForm = () => {
 				</div>
 				<button type='submit'>Login</button>
 			</form>
+			<div>
+				<Link to={'/signup'}>Signup</Link>
+			</div>
 		</div>
 	)
 }

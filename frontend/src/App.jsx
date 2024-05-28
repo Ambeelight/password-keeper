@@ -9,6 +9,7 @@ import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import LogoutForm from './components/LogoutForm'
 import PasswordList from './components/PasswordList'
+import PasswordForm from './components/PasswordForm'
 
 import storageService from './services/storage'
 
@@ -24,7 +25,10 @@ const App = () => {
 			logIn(loggedUser)
 			storageService.setToken(loggedUser.token)
 		} else {
-			navigate('/')
+			const currentPath = window.location.pathname
+			if (currentPath !== '/signup') {
+				navigate('/')
+			}
 		}
 	}, [navigate])
 
@@ -37,8 +41,7 @@ const App = () => {
 				<Route path='/' element={<LoginForm />} />
 				<Route path='/signup' element={<SignupForm />} />
 
-				<Route path='/user/:username' element={<PasswordList />} />
-				{/* <Route path='/passwords/create' element={<PasswordForm />} />  */}
+				<Route path='/user/:id' element={<PasswordList />} />
 			</Routes>
 		</>
 	)
