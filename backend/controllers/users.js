@@ -36,7 +36,6 @@ router.post('/signup', async (req, res) => {
 
 	const savedUser = await user.save()
 
-	console.log('User created', user)
 	res.status(201).json(savedUser)
 })
 

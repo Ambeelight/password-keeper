@@ -12,12 +12,12 @@ router.post('/', async (req, res) => {
 	const { username, password } = req.body
 	const user = await User.findOne({ username })
 
-	if (!user) res.status(401).json({ error: 'invalid login' })
+	if (!user) return res.status(401).json({ error: 'invalid login' })
 
 	const checkPassword =
 		user === null ? false : await bcrypt.compare(password, user.passwordHash)
 
-	if (!checkPassword) res.status(401).json({ error: 'invalid password' })
+	if (!checkPassword) return res.status(401).json({ error: 'invalid password' })
 
 	const userForToken = {
 		username: user.username,
@@ -30,9 +30,10 @@ router.post('/', async (req, res) => {
 	const newSession = new ActiveSession({ token, expiresAt })
 	newSession.save()
 
-	if (!newSession) res.status(500).json({ error: 'could not create a session' })
+	if (!newSession)
+		return res.status(500).json({ error: 'could not create a session' })
 
-	res.status(200).send({ token, username: user.username, id: user.id })
+	return res.status(200).send({ token, username: user.username, id: user.id })
 })
 
 export default router
