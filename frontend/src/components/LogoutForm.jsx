@@ -17,11 +17,11 @@ const LogoutForm = () => {
 			logoutService.setToken(user.token)
 			await logoutService.logout()
 			logOut()
-
-			navigate('/')
 		} catch (error) {
 			console.error('Logout failed', error)
 		}
+
+		navigate('/')
 	}
 
 	return (

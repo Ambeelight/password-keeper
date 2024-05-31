@@ -35,7 +35,7 @@ const LoginForm = () => {
 
 	return (
 		<div>
-			<h2>Login</h2>
+			<h2>Log in</h2>
 			<form onSubmit={handleLogin}>
 				<div>
 					Username
@@ -59,10 +59,10 @@ const LoginForm = () => {
 						required
 					/>
 				</div>
-				<button type='submit'>Login</button>
+				<button type='submit'>Log in</button>
 			</form>
 			<div>
-				<Link to={'/signup'}>Signup</Link>
+				<Link to={'/signup'}>Sign up</Link>
 			</div>
 		</div>
 	)
