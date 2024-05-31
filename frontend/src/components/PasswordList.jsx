@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import storageService from '../services/storage'
 
+import PasswordForm from './PasswordForm'
+
 const PasswordList = () => {
 	const {
 		data: passwords,
@@ -19,13 +21,18 @@ const PasswordList = () => {
 	return (
 		<>
 			<div>
-				{passwords?.map((password) => (
-					<div key={password.id}>
-						<h3>name: {password.name} </h3>
-						<p>password: {password.password} </p>
-					</div>
-				))}
+				<h2>Passwords</h2>
+				<ul>
+					{passwords?.map((password) => (
+						<li key={password.id}>
+							<strong>{password.name}</strong>
+							<p>{password.description}</p>
+							<p>{password.password}</p>
+						</li>
+					))}
+				</ul>
 			</div>
+			<PasswordForm />
 		</>
 	)
 }

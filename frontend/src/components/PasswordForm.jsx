@@ -7,9 +7,8 @@ const PasswordForm = () => {
 
 	const createNewPassword = useMutation({
 		mutationFn: storageService.create,
-		onSuccess: (newPassword) => {
-			const prevPasswords = queryClient.getQueryData(['passwords'])
-			queryClient.setQueryData(['passwords'], [...prevPasswords, newPassword])
+		onSuccess: () => {
+			queryClient.invalidateQueries(['passwords'])
 		},
 		onError: (error) => {
 			console.log('Error', error)
@@ -63,7 +62,7 @@ const PasswordForm = () => {
 						placeholder='write password'
 					/>
 				</div>
-				<input id='addPassword' type='submit' value={Create} />
+				<input id='addPassword' type='submit' value='Create' />
 			</form>
 		</>
 	)
