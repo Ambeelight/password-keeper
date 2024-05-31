@@ -13,8 +13,10 @@ router.get('/', validSessionToken, userExtractor, async (req, res) => {
 
 	const passwords = await Password.find({ userId: user.id })
 
+	if (!passwords) res.status(200).json({ message: 'Storage is empty' })
+
 	const decryptedPasswords = passwords.map((pwd) => ({
-		...pwd.toObject(),
+		...pwd.toJSON(),
 		password: decrypt(pwd.password),
 	}))
 
@@ -37,6 +39,7 @@ router.post('/', validSessionToken, userExtractor, async (req, res) => {
 	if (!session) {
 		res.status(401).json({ message: 'Your token has been expired' })
 	}
+
 	const encryptedPassword = encrypt(password)
 
 	const newPassword = new Password({
