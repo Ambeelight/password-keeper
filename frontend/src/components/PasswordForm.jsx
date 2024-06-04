@@ -5,7 +5,7 @@ import storageService from '../services/storage'
 const PasswordForm = () => {
 	const queryClient = useQueryClient()
 
-	const createNewPassword = useMutation({
+	const createNewPasswordMutation = useMutation({
 		mutationFn: storageService.create,
 		onSuccess: () => {
 			queryClient.invalidateQueries(['passwords'])
@@ -28,7 +28,7 @@ const PasswordForm = () => {
 		event.target.description.value = ''
 		event.target.password.value = ''
 
-		createNewPassword.mutate(newPassword)
+		createNewPasswordMutation.mutate(newPassword)
 	}
 
 	return (
