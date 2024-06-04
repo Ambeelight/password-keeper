@@ -16,6 +16,11 @@ const getAll = async () => {
 	return response.data
 }
 
+const getPasswordById = async (id) => {
+	const response = await axios.get(`${baseUrl}/${id}`, { headers })
+	return response.data
+}
+
 const create = async (newObject) => {
 	const response = await axios.post(baseUrl, newObject, { headers })
 	return response.data
@@ -33,4 +38,4 @@ const remove = async (object) => {
 	return response.data
 }
 
-export default { getAll, create, update, setToken, remove }
+export default { getAll, getPasswordById, create, update, setToken, remove }

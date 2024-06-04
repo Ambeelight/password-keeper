@@ -23,6 +23,24 @@ router.get('/', validSessionToken, userExtractor, async (req, res) => {
 	res.status(200).json(decryptedPasswords)
 })
 
+router.get('/:id', validSessionToken, userExtractor, async (req, res) => {
+	const session = req.validSessionToken
+	const passwordId = req.params.id
+
+	if (!session) res.status(401).json({ error: 'Token invalid' })
+
+	const password = await Password.findById(passwordId)
+
+	if (!password) res.status(404).json({ message: 'Password not found' })
+
+	const decryptedPassword = {
+		...password.toJSON(),
+		password: decrypt(password.password),
+	}
+
+	res.status(200).json(decryptedPassword)
+})
+
 router.post('/', validSessionToken, userExtractor, async (req, res) => {
 	const { name, description, password } = req.body
 	const session = req.validSessionToken
