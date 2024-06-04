@@ -9,7 +9,7 @@ import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import LogoutForm from './components/LogoutForm'
 import PasswordList from './components/PasswordList'
-import PasswordForm from './components/PasswordForm'
+import Password from './components/Password'
 
 import storageService from './services/storage'
 
@@ -42,6 +42,7 @@ const App = () => {
 				<Route path='/signup' element={<SignupForm />} />
 
 				<Route path='/user/:id' element={<PasswordList />} />
+				<Route path='/user/:id/password/:id' element={<Password />} />
 			</Routes>
 		</>
 	)
