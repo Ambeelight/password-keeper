@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
+import { Link, useParams } from 'react-router-dom'
 import storageService from '../services/storage'
 
 import PasswordForm from './PasswordForm'
 
 const PasswordList = () => {
+	const { id } = useParams()
 	const {
 		data: passwords,
 		isLoading,
@@ -17,7 +19,6 @@ const PasswordList = () => {
 	if (isLoading) return <div>Data is loading...</div>
 	if (isError) return <div>There is an error!</div>
 
-	console.log('Data', passwords)
 	return (
 		<>
 			<div>
@@ -25,9 +26,9 @@ const PasswordList = () => {
 				<ul>
 					{passwords?.map((password) => (
 						<li key={password.id}>
-							<strong>{password.name}</strong>
-							<p>{password.description}</p>
-							<p>{password.password}</p>
+							<Link to={`/user/${id}/password/${password.id}`}>
+								{password.name}
+							</Link>
 						</li>
 					))}
 				</ul>
