@@ -1,13 +1,14 @@
 import { useNavigate } from 'react-router-dom'
 
-import { useLogOut } from '../UserContext'
-import { useUserValue } from '../UserContext'
+import { useLogOut, useUserValue } from '../UserContext'
+import { useNotification } from '../NotificationContext'
 import logoutService from '../services/logout'
 
 const LogoutForm = () => {
 	const user = useUserValue()
 	const logOut = useLogOut()
 	const navigate = useNavigate()
+	const notification = useNotification()
 
 	const handleLogout = async (event) => {
 		event.preventDefault()
@@ -17,8 +18,9 @@ const LogoutForm = () => {
 			logoutService.setToken(user.token)
 			await logoutService.logout()
 			logOut()
+			notification(`User ${user.username} logged out`, 'success')
 		} catch (error) {
-			console.error('Logout failed', error)
+			notification(error.response.data.error)
 		}
 
 		navigate('/')

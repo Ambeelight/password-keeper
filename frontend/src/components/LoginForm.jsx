@@ -6,6 +6,7 @@ import loginService from '../services/login'
 import storageService from '../services/storage'
 
 import { useLogIn } from '../UserContext'
+import { useNotification } from '../NotificationContext'
 
 const LoginForm = () => {
 	const [username, setUsername] = useState('')
@@ -13,6 +14,7 @@ const LoginForm = () => {
 	const navigate = useNavigate()
 	const queryClient = useQueryClient()
 	const logIn = useLogIn()
+	const notification = useNotification()
 
 	const handleLogin = async (event) => {
 		event.preventDefault()
@@ -22,6 +24,8 @@ const LoginForm = () => {
 			window.sessionStorage.setItem('loggedUser', JSON.stringify(user))
 			storageService.setToken(user.token)
 			logIn(user)
+			console.log('USER', user)
+			notification(`Welcome ${user.username}`, 'success')
 
 			queryClient.invalidateQueries(['blogs'])
 			navigate(`/user/${user.id}`)
@@ -29,7 +33,7 @@ const LoginForm = () => {
 			setUsername('')
 			setPassword('')
 		} catch (error) {
-			console.error('Login failed', error)
+			notification('Wrong username or password', error)
 		}
 	}
 
