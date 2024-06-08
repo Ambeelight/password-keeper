@@ -1,17 +1,24 @@
+import { useState } from 'react'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 
 import storageService from '../services/storage'
 
+import { useNotification } from '../NotificationContext'
+
 const PasswordForm = () => {
 	const queryClient = useQueryClient()
+	const notification = useNotification()
+
+	const [isCreating, setIsCreating] = useState(false)
 
 	const createNewPasswordMutation = useMutation({
 		mutationFn: storageService.create,
 		onSuccess: () => {
 			queryClient.invalidateQueries(['passwords'])
+			notification(`New password has been created`, 'success')
 		},
 		onError: (error) => {
-			console.log('Error', error)
+			notification(`Error ${error} of creating a new password`)
 		},
 	})
 
@@ -31,39 +38,50 @@ const PasswordForm = () => {
 		createNewPasswordMutation.mutate(newPassword)
 	}
 
+	const handleFormClick = (editState) => {
+		setIsCreating(!editState)
+	}
+
 	return (
 		<>
 			<h2>Create new password</h2>
-			<form onSubmit={newPasswordData}>
-				<div>
-					<div>name:</div>
-					<input
-						id='name'
-						type='text'
-						autoComplete='off'
-						placeholder='write a name'
-					/>
-				</div>
-				<div>
-					<div>description:</div>
-					<input
-						id='description'
-						type='text'
-						autoComplete='off'
-						placeholder='add description'
-					/>
-				</div>
-				<div>
-					<div>password:</div>
-					<input
-						id='password'
-						type='password'
-						autoComplete='off'
-						placeholder='write password'
-					/>
-				</div>
-				<input id='addPassword' type='submit' value='Create' />
-			</form>
+			{isCreating ? (
+				<form onSubmit={newPasswordData}>
+					<div>
+						<div>name:</div>
+						<input
+							id='name'
+							type='text'
+							autoComplete='off'
+							placeholder='write a name'
+						/>
+					</div>
+					<div>
+						<div>description:</div>
+						<input
+							id='description'
+							type='text'
+							autoComplete='off'
+							placeholder='add description'
+						/>
+					</div>
+					<div>
+						<div>password:</div>
+						<input
+							id='password'
+							type='password'
+							autoComplete='off'
+							placeholder='write password'
+						/>
+					</div>
+					<input id='addPassword' type='submit' value='Create' />
+					<button type='button' onClick={() => handleFormClick(isCreating)}>
+						Cancel
+					</button>
+				</form>
+			) : (
+				<button onClick={() => handleFormClick(isCreating)}>+</button>
+			)}
 		</>
 	)
 }

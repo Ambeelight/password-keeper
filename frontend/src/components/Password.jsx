@@ -2,11 +2,13 @@ import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import storageService from '../services/storage'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { useNotification } from '../NotificationContext'
 
 const Password = () => {
 	const queryClient = useQueryClient()
 	const navigate = useNavigate()
 	const { id } = useParams()
+	const notification = useNotification()
 
 	const [isEditing, setIsEditing] = useState(false)
 	const [editedPassword, setEditedPassword] = useState({
@@ -42,9 +44,10 @@ const Password = () => {
 		onSuccess: () => {
 			queryClient.invalidateQueries(['passwords'])
 			setIsEditing(false)
+			notification('Password has been updated', 'success')
 		},
 		onError: (error) => {
-			console.log('Error', error)
+			notification(error.response.data.error)
 		},
 	})
 
@@ -57,9 +60,10 @@ const Password = () => {
 		onSuccess: (password) => {
 			queryClient.invalidateQueries(['passwords'])
 			navigate(`/user/${password.userId}`)
+			notification(`Password ${password.name} has been deleted`, 'success')
 		},
 		onError: (error) => {
-			console.log('Error', error)
+			notification(error.response.data.error)
 		},
 	})
 
