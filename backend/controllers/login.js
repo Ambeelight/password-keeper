@@ -33,7 +33,9 @@ router.post('/', async (req, res) => {
 	if (!newSession)
 		return res.status(500).json({ error: 'could not create a session' })
 
-	return res.status(200).send({ token, username: user.username, id: user.id })
+	return res
+		.status(200)
+		.send({ token, username: user.username, id: user.id, expiresAt })
 })
 
 export default router

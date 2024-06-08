@@ -1,74 +1,64 @@
-import { useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
 import { useNavigate, Link } from 'react-router-dom'
-import { useQueryClient } from '@tanstack/react-query'
-
-import loginService from '../services/login'
-import storageService from '../services/storage'
 
 import { useLogIn } from '../UserContext'
-import { useNotification } from '../NotificationContext'
+import loginService from '../services/login'
 
 const LoginForm = () => {
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
-	const navigate = useNavigate()
-	const queryClient = useQueryClient()
 	const logIn = useLogIn()
-	const notification = useNotification()
+	const navigate = useNavigate()
 
-	const handleLogin = async (event) => {
+	const loginMutation = useMutation({
+		mutationFn: loginService.login,
+		onSuccess: (data) => {
+			const { token, username, id, expiresAt } = data
+			const loggedUser = { token, username, id, expiresAt }
+			window.sessionStorage.setItem('loggedUser', JSON.stringify(loggedUser))
+			logIn(loggedUser)
+			navigate(`/user/${id}`)
+		},
+		onError: (error) => {
+			console.log('Error', error)
+		},
+	})
+
+	const handleLogin = (event) => {
 		event.preventDefault()
-		try {
-			const user = await loginService.login({ username, password })
-
-			window.sessionStorage.setItem('loggedUser', JSON.stringify(user))
-			storageService.setToken(user.token)
-			logIn(user)
-			console.log('USER', user)
-			notification(`Welcome ${user.username}`, 'success')
-
-			queryClient.invalidateQueries(['blogs'])
-			navigate(`/user/${user.id}`)
-
-			setUsername('')
-			setPassword('')
-		} catch (error) {
-			notification('Wrong username or password', error)
+		const user = {
+			username: event.target.username.value,
+			password: event.target.password.value,
 		}
+		loginMutation.mutate(user)
 	}
 
 	return (
-		<div>
-			<h2>Log in</h2>
+		<>
+			<h2>Login</h2>
 			<form onSubmit={handleLogin}>
 				<div>
-					Username
+					<div>username:</div>
 					<input
+						id='username'
 						type='text'
-						value={username}
-						name='Username'
-						onChange={({ target }) => setUsername(target.value)}
+						name='username'
 						autoComplete='off'
-						required
+						placeholder='your username'
 					/>
 				</div>
 				<div>
-					Password
+					<div>password:</div>
 					<input
+						id='password'
 						type='password'
-						value={password}
-						name='Password'
-						onChange={({ target }) => setPassword(target.value)}
+						name='password'
 						autoComplete='off'
-						required
+						placeholder='your password'
 					/>
 				</div>
-				<button type='submit'>Log in</button>
+				<input type='submit' id='login' />
+				<Link to={'/signup'}>Sign Up</Link>
 			</form>
-			<div>
-				<Link to={'/signup'}>Sign up</Link>
-			</div>
-		</div>
+		</>
 	)
 }
 
