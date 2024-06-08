@@ -1,7 +1,7 @@
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
-import { useLogIn } from './UserContext'
+import { useLogIn, useLogOut } from './UserContext'
 import { useUserValue } from './UserContext'
 
 import Notification from './components/Notification'
@@ -15,6 +15,7 @@ import storageService from './services/storage'
 
 const App = () => {
 	const logIn = useLogIn()
+	const logOut = useLogOut()
 	const navigate = useNavigate()
 	const user = useUserValue()
 
@@ -22,8 +23,17 @@ const App = () => {
 		const loggedUserJSON = window.sessionStorage.getItem('loggedUser')
 		if (loggedUserJSON) {
 			const loggedUser = JSON.parse(loggedUserJSON)
-			logIn(loggedUser)
-			storageService.setToken(loggedUser.token)
+			const expiresAt = new Date(loggedUser.expiresAt)
+			const currentTime = new Date()
+
+			if (expiresAt > currentTime) {
+				logIn(loggedUser)
+				storageService.setToken(loggedUser.token)
+			} else {
+				window.sessionStorage.removeItem('loggedUser')
+				logOut()
+				navigate('/')
+			}
 		} else {
 			const currentPath = window.location.pathname
 			if (currentPath !== '/signup') {
@@ -31,6 +41,12 @@ const App = () => {
 			}
 		}
 	}, [navigate])
+
+	useEffect(() => {
+		if (user) {
+			navigate(`/user/${user.id}`)
+		}
+	}, [navigate, user])
 
 	return (
 		<>
