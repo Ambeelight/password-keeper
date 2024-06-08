@@ -1,18 +1,22 @@
-import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useNavigate, Link } from 'react-router-dom'
 
 import userService from '../services/users'
 
+import { useNotification } from '../NotificationContext'
+
 const SignupForm = () => {
 	const navigate = useNavigate()
+	const notification = useNotification()
 
 	const createNewUser = useMutation({
 		mutationFn: userService.signUp,
 		onSuccess: () => {
+			notification(`Your account successfully created.`, 'success')
 			navigate(`/`)
 		},
 		onError: (error) => {
-			console.log('Error', error)
+			notification(`Error ${error} of creating a new account`)
 		},
 	})
 
@@ -49,7 +53,7 @@ const SignupForm = () => {
 					<input
 						id='newUserPassword'
 						type='password'
-						name='newUserPassword'
+						name='password'
 						autoComplete='off'
 						placeholder='your password'
 					/>
