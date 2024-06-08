@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
 
 import { useLogOut, useUserValue } from '../UserContext'
 import { useNotification } from '../NotificationContext'
@@ -10,20 +11,23 @@ const LogoutForm = () => {
 	const navigate = useNavigate()
 	const notification = useNotification()
 
-	const handleLogout = async (event) => {
-		event.preventDefault()
-
-		try {
+	const logoutMutation = useMutation({
+		mutationFn: logoutService.logout,
+		onSuccess: () => {
 			window.sessionStorage.removeItem('loggedUser')
-			logoutService.setToken(user.token)
-			await logoutService.logout()
 			logOut()
 			notification(`User ${user.username} logged out`, 'success')
-		} catch (error) {
-			notification(error.response.data.error)
-		}
+			navigate('/')
+		},
+		onError: (error) => {
+			notification(error.response?.data?.error || 'Logout failed')
+		},
+	})
 
-		navigate('/')
+	const handleLogout = (event) => {
+		event.preventDefault()
+		logoutService.setToken(user.token)
+		logoutMutation.mutate()
 	}
 
 	return (

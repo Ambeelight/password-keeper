@@ -21,19 +21,23 @@ const PasswordList = () => {
 
 	return (
 		<>
+			<PasswordForm />
 			<div>
 				<h2>Passwords</h2>
 				<ul>
-					{passwords?.map((password) => (
-						<li key={password.id}>
-							<Link to={`/user/${id}/password/${password.id}`}>
-								{password.name}
-							</Link>
-						</li>
-					))}
+					{passwords ? (
+						passwords.map((password) => (
+							<li key={password.id}>
+								<Link to={`/user/${id}/password/${password.id}`}>
+									{password.name}
+								</Link>
+							</li>
+						))
+					) : (
+						<div>Your password list is empty</div>
+					)}
 				</ul>
 			</div>
-			<PasswordForm />
 		</>
 	)
 }
