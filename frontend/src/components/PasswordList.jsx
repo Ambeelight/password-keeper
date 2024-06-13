@@ -20,25 +20,28 @@ const PasswordList = () => {
 	if (isError) return <div>There is an error!</div>
 
 	return (
-		<>
+		<div className='flex flex-col items-center min-h-screen bg-gray-100 py-24'>
 			<PasswordForm />
-			<div>
-				<h2>Passwords</h2>
-				<ul>
-					{passwords ? (
+			<div className='w-full max-w-2xl p-8 mt-8 space-y-6 bg-white border border-gray-300 rounded-lg shadow-lg'>
+				<h2 className='text-2xl font-bold'>Passwords</h2>
+				<ul className='list-disc pl-6 space-y-2'>
+					{passwords && passwords.length > 0 ? (
 						passwords.map((password) => (
 							<li key={password.id}>
-								<Link to={`/user/${id}/password/${password.id}`}>
+								<Link
+									to={`/user/${id}/password/${password.id}`}
+									className='text-lg  text-indigo-600 hover:underline'
+								>
 									{password.name}
 								</Link>
 							</li>
 						))
 					) : (
-						<div>Your password list is empty</div>
+						<div className='text-gray-600'>Your password list is empty</div>
 					)}
 				</ul>
 			</div>
-		</>
+		</div>
 	)
 }
 

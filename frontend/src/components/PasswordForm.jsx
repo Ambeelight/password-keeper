@@ -43,46 +43,72 @@ const PasswordForm = () => {
 	}
 
 	return (
-		<>
-			<h2>Create new password</h2>
-			{isCreating ? (
-				<form onSubmit={newPasswordData}>
+		<div className='w-full max-w-2xl p-8 space-y-6 bg-white border border-gray-300 rounded-lg shadow-lg'>
+			<div className='flex items-center content-center justify-between'>
+				<h2 className='text-xl font-bold'>Create new password</h2>
+				<button
+					onClick={() => handleFormClick(isCreating)}
+					className='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300'
+				>
+					{isCreating ? '−' : '+'}
+				</button>
+			</div>
+			{isCreating && (
+				<form
+					className={`space-y-4 transition-max-height duration-500 ease-in-out overflow-hidden ${
+						isCreating ? 'max-h-96' : 'max-h-0'
+					}`}
+					onSubmit={newPasswordData}
+				>
 					<div>
-						<div>name:</div>
+						<div className='mb-1'>Name:</div>
 						<input
 							id='name'
 							type='text'
 							autoComplete='off'
-							placeholder='write a name'
+							placeholder='Write a name'
+							className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300'
 						/>
 					</div>
 					<div>
-						<div>description:</div>
+						<div className='mb-1'>Description:</div>
 						<input
 							id='description'
 							type='text'
 							autoComplete='off'
-							placeholder='add description'
+							placeholder='Add description'
+							className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300'
 						/>
 					</div>
 					<div>
-						<div>password:</div>
+						<div className='mb-1'>Password:</div>
 						<input
 							id='password'
-							type='password'
+							type='text'
 							autoComplete='off'
-							placeholder='write password'
+							placeholder='Write password'
+							className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300'
 						/>
 					</div>
-					<input id='addPassword' type='submit' value='Create' />
-					<button type='button' onClick={() => handleFormClick(isCreating)}>
-						Cancel
-					</button>
+					<div className='flex justify-around items-center'>
+						<button
+							type='submit'
+							id='addPassword'
+							className='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300'
+						>
+							Create
+						</button>
+						<button
+							type='button'
+							onClick={() => handleFormClick(isCreating)}
+							className='bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 focus:outline-none focus:ring focus:border-blue-300'
+						>
+							Cancel
+						</button>
+					</div>
 				</form>
-			) : (
-				<button onClick={() => handleFormClick(isCreating)}>+</button>
 			)}
-		</>
+		</div>
 	)
 }
 

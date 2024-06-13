@@ -89,65 +89,93 @@ const Password = () => {
 	}
 
 	return (
-		<>
+		<div className='max-w-lg mx-auto mt-24 p-4 bg-white shadow-md rounded-lg'>
+			<h2 className='text-xl font-bold mb-4'>
+				{isEditing ? 'Edit Password' : 'Password Details'}
+			</h2>
 			{isEditing ? (
-				<div>
-					<h2>Edit Password</h2>
-					<div>
-						<label>Name</label>
+				<form>
+					<div className='mb-4'>
+						<label className='block text-gray-700 text-sm font-bold mb-2'>
+							Name
+						</label>
 						<input
 							type='text'
 							name='name'
 							value={editedPassword.name}
 							onChange={handleChange}
+							className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300'
 						/>
 					</div>
-					<div>
-						<label>Description</label>
+					<div className='mb-4'>
+						<label className='block text-gray-700 text-sm font-bold mb-2'>
+							Description
+						</label>
 						<input
 							type='text'
 							name='description'
 							value={editedPassword.description}
 							onChange={handleChange}
+							className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300'
 						/>
 					</div>
-					<div>
-						<label>Password</label>
+					<div className='mb-4'>
+						<label className='block text-gray-700 text-sm font-bold mb-2'>
+							Password
+						</label>
 						<input
 							type='text'
 							name='password'
 							value={editedPassword.password}
 							onChange={handleChange}
+							className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300'
 						/>
 					</div>
-					<button type='button' onClick={() => updatePassword(editedPassword)}>
-						Save
-					</button>
-					<button type='button' onClick={() => handleEditClick(isEditing)}>
-						Cancel
-					</button>
-				</div>
+					<div className='flex justify-between'>
+						<button
+							type='button'
+							onClick={() => updatePassword(editedPassword)}
+							className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring focus:border-blue-300'
+						>
+							Save
+						</button>
+						<button
+							type='button'
+							onClick={handleEditClick}
+							className='bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded-md focus:outline-none focus:ring focus:border-blue-300'
+						>
+							Cancel
+						</button>
+					</div>
+				</form>
 			) : (
 				<div>
-					<h2>Password</h2>
-					<div>
-						Name:
-						<span>{password.name}</span>
+					<div className='mb-4'>
+						<strong>Name:</strong> {password.name}
 					</div>
-					<div>
-						Description:
-						<span>{password.description}</span>
+					<div className='mb-4'>
+						<strong>Description:</strong> {password.description}
 					</div>
-					<div>
-						Password:
-						<span>{password.password}</span>
+					<div className='mb-4'>
+						<strong>Password:</strong> {password.password}
 					</div>
-
-					<button onClick={() => handleEditClick(isEditing)}>edit</button>
-					<button onClick={() => removePassword(password)}>delete</button>
+					<div className='flex'>
+						<button
+							onClick={() => handleEditClick()}
+							className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mr-2 focus:outline-none focus:ring focus:border-blue-300'
+						>
+							Edit
+						</button>
+						<button
+							onClick={() => removePassword(password)}
+							className='bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring focus:border-blue-300'
+						>
+							Delete
+						</button>
+					</div>
 				</div>
 			)}
-		</>
+		</div>
 	)
 }
 

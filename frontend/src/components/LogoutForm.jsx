@@ -31,10 +31,19 @@ const LogoutForm = () => {
 	}
 
 	return (
-		<>
-			<h3>{user.username} is logged in</h3>
-			<button onClick={handleLogout}>logout</button>
-		</>
+		<div className='absolute w-full top-0  bg-white border-b-2 border-gray-300 z-10'>
+			<div className='flex flex-wrap justify-evenly content-center items-center h-16'>
+				<h3 className=' text-lg text-black font-semibold'>
+					{user.username} is logged in
+				</h3>
+				<button
+					onClick={handleLogout}
+					className='bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'
+				>
+					logout
+				</button>
+			</div>
+		</div>
 	)
 }
 
