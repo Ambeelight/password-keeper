@@ -42,12 +42,6 @@ const App = () => {
 		}
 	}, [navigate])
 
-	useEffect(() => {
-		if (user) {
-			navigate(`/user/${user.id}`)
-		}
-	}, [navigate, user])
-
 	return (
 		<>
 			{user && <LogoutForm />}
