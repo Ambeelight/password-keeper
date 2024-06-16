@@ -89,8 +89,8 @@ const Password = () => {
 	}
 
 	return (
-		<div className='max-w-lg mx-auto mt-24 p-4 bg-white shadow-md rounded-lg'>
-			<h2 className='text-xl font-bold mb-4'>
+		<div className='max-w-lg mx-auto mt-24 p-4 bg-white dark:bg-slate-900 shadow-md rounded-lg'>
+			<h2 className='text-xl font-bold mb-4 dark:text-white'>
 				{isEditing ? 'Edit Password' : 'Password Details'}
 			</h2>
 			{isEditing ? (
@@ -104,7 +104,6 @@ const Password = () => {
 							name='name'
 							value={editedPassword.name}
 							onChange={handleChange}
-							className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300'
 						/>
 					</div>
 					<div className='mb-4'>
@@ -116,7 +115,6 @@ const Password = () => {
 							name='description'
 							value={editedPassword.description}
 							onChange={handleChange}
-							className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300'
 						/>
 					</div>
 					<div className='mb-4'>
@@ -128,7 +126,6 @@ const Password = () => {
 							name='password'
 							value={editedPassword.password}
 							onChange={handleChange}
-							className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300'
 						/>
 					</div>
 					<div className='flex justify-between'>
@@ -149,17 +146,19 @@ const Password = () => {
 					</div>
 				</form>
 			) : (
-				<div>
-					<div className='mb-4'>
-						<strong>Name:</strong> {password.name}
+				<div className='dark:text-white'>
+					<div className='mb-4 dark:text-indigo-500'>
+						<div>
+							<strong>Name:</strong> {password.name}
+						</div>
+						<div>
+							<strong>Description:</strong> {password.description}
+						</div>
+						<div>
+							<strong>Password:</strong> {password.password}
+						</div>
 					</div>
-					<div className='mb-4'>
-						<strong>Description:</strong> {password.description}
-					</div>
-					<div className='mb-4'>
-						<strong>Password:</strong> {password.password}
-					</div>
-					<div className='flex'>
+					<div className='flex justify-between'>
 						<button
 							onClick={() => handleEditClick()}
 							className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mr-2 focus:outline-none focus:ring focus:border-blue-300'

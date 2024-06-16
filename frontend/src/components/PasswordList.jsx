@@ -20,11 +20,11 @@ const PasswordList = () => {
 	if (isError) return <div>There is an error!</div>
 
 	return (
-		<div className='flex flex-col items-center min-h-screen bg-gray-100 py-24'>
+		<div className='flex flex-col items-center min-h-screen bg-gray-100 dark:bg-slate-950 py-24'>
 			<PasswordForm />
-			<div className='w-full max-w-2xl p-8 mt-8 space-y-6 bg-white border border-gray-300 rounded-lg shadow-lg'>
-				<h2 className='text-2xl font-bold'>Passwords</h2>
-				<ul className='list-disc pl-6 space-y-2'>
+			<div className='w-full max-w-2xl p-8 mt-8 space-y-6 bg-white dark:bg-slate-900 border border-gray-300 dark:border-indigo-500 rounded-lg shadow-lg'>
+				<h2 className='text-2xl font-bold dark:text-white'>Passwords</h2>
+				<ul className='list-disc pl-6 space-y-2 dark:text-indigo-500'>
 					{passwords && passwords.length > 0 ? (
 						passwords.map((password) => (
 							<li key={password.id}>

@@ -31,9 +31,9 @@ const LogoutForm = () => {
 	}
 
 	return (
-		<div className='absolute w-full top-0  bg-white border-b-2 border-gray-300 z-10'>
-			<div className='flex flex-wrap justify-evenly content-center items-center h-16'>
-				<h3 className=' text-lg text-black font-semibold'>
+		<div className='absolute w-full top-0 bg-white border-b-2 dark:bg-slate-950 border-gray-300 dark:border-indigo-500 z-10 shadow-md'>
+			<div className='flex flex-wrap justify-between px-8 md:px-32 lg:justify-evenly content-center items-center h-16'>
+				<h3 className=' text-lg text-black font-semibold dark:text-white'>
 					{user.username} is logged in
 				</h3>
 				<button

@@ -43,12 +43,14 @@ const SignupForm = () => {
 	}
 
 	return (
-		<div className='flex items-center justify-center min-h-screen bg-gray-100'>
-			<div className='w-full max-w-md p-8 space-y-6 bg-white border border-gray-300 rounded-lg shadow-lg'>
-				<h2 className='text-center text-2xl font-bold'>Registration</h2>
+		<div className='flex items-center justify-center min-h-screen bg-gray-100 dark:bg-slate-950'>
+			<div className='w-full max-w-md p-8 space-y-6 bg-white border border-gray-300 dark:bg-slate-900 dark:border-indigo-500 rounded-lg shadow-lg'>
+				<h2 className='text-center text-2xl font-bold dark:text-white'>
+					Registration
+				</h2>
 				<form className='space-y-6' onSubmit={newUser}>
 					<div>
-						<label className='block text-base font-medium leading-6 text-gray-900'>
+						<label className='block text-base font-medium leading-6 text-gray-900 dark:text-white'>
 							username
 						</label>
 						<input
@@ -59,11 +61,10 @@ const SignupForm = () => {
 							placeholder='your username'
 							required
 							onChange={(e) => setUsername(e.target.value)}
-							className='block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6'
 						/>
 					</div>
 					<div>
-						<label className='block text-base font-medium leading-6 text-gray-900'>
+						<label className='block text-base font-medium leading-6 text-gray-900 dark:text-white'>
 							password
 						</label>
 						<input
@@ -74,21 +75,13 @@ const SignupForm = () => {
 							placeholder='your password'
 							required
 							onChange={(e) => setPassword(e.target.value)}
-							className='block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6'
 						/>
 					</div>
 					<div className='flex flex-col items-center space-y-4'>
-						<button
-							type='submit'
-							id='createUser'
-							className='w-full rounded-md bg-indigo-600 px-3 py-1.5 text-base font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-						>
+						<button type='submit' id='createUser' className='btn-submit'>
 							Create Account
 						</button>
-						<Link
-							to={'/'}
-							className='w-full text-center rounded-md bg-indigo-600 px-3 py-1.5 text-base font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-						>
+						<Link to={'/'} className='text-center btn-submit'>
 							Cancel
 						</Link>
 					</div>
