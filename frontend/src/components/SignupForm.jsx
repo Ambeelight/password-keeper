@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import userService from '../services/users'
 
 import { useNotification } from '../NotificationContext'
+import PasswordVisibility from './PasswordVisibility'
 
 const SignupForm = () => {
 	const navigate = useNavigate()
@@ -12,6 +13,7 @@ const SignupForm = () => {
 
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+	const [visibility, setVisibility] = useState(false)
 
 	const createNewUser = useMutation({
 		mutationFn: userService.signUp,
@@ -42,6 +44,10 @@ const SignupForm = () => {
 		createNewUser.mutate(user)
 	}
 
+	const handleVisibility = () => {
+		setVisibility(!visibility)
+	}
+
 	return (
 		<div className='flex items-center justify-center min-h-screen bg-gray-100 dark:bg-slate-950'>
 			<div className='w-full max-w-md p-8 space-y-6 bg-white border border-gray-300 dark:bg-slate-900 dark:border-indigo-500 rounded-lg shadow-lg'>
@@ -50,9 +56,7 @@ const SignupForm = () => {
 				</h2>
 				<form className='space-y-6' onSubmit={newUser}>
 					<div>
-						<label className='block text-base font-medium leading-6 text-gray-900 dark:text-white'>
-							username
-						</label>
+						<label className='form-input__name'>Username:</label>
 						<input
 							id='username'
 							type='text'
@@ -64,17 +68,19 @@ const SignupForm = () => {
 						/>
 					</div>
 					<div>
-						<label className='block text-base font-medium leading-6 text-gray-900 dark:text-white'>
-							password
-						</label>
+						<label className='form-input__name'>Password:</label>
 						<input
 							id='newUserPassword'
-							type='password'
+							type={visibility ? 'text' : 'password'}
 							name='password'
 							autoComplete='off'
 							placeholder='your password'
 							required
 							onChange={(e) => setPassword(e.target.value)}
+						/>
+						<PasswordVisibility
+							visibility={visibility}
+							toggleVisibility={handleVisibility}
 						/>
 					</div>
 					<div className='flex flex-col items-center space-y-4'>
