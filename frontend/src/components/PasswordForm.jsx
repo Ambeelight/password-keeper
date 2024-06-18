@@ -71,6 +71,7 @@ const PasswordForm = () => {
 							type='text'
 							autoComplete='off'
 							placeholder='Write a name'
+							required
 						/>
 					</div>
 					<div>
@@ -89,12 +90,14 @@ const PasswordForm = () => {
 							type='text'
 							autoComplete='off'
 							placeholder='Write password'
+							required
 						/>
 					</div>
 					<div className='flex justify-between items-center'>
 						<button
 							type='submit'
 							id='addPassword'
+							onClick={() => handleFormClick(isCreating)}
 							className='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300'
 						>
 							Create
@@ -109,58 +112,6 @@ const PasswordForm = () => {
 					</div>
 				</form>
 			</div>
-			{/* {isCreating && (
-				<form
-					className={`space-y-4 overflow-hidden dark:text-white ${
-						isCreating ? 'max-h-96' : 'max-h-0'
-					}`}
-					onSubmit={newPasswordData}
-				>
-					<div>
-						<div className='mb-1'>Name:</div>
-						<input
-							id='name'
-							type='text'
-							autoComplete='off'
-							placeholder='Write a name'
-						/>
-					</div>
-					<div>
-						<div className='mb-1'>Description:</div>
-						<input
-							id='description'
-							type='text'
-							autoComplete='off'
-							placeholder='Add description'
-						/>
-					</div>
-					<div>
-						<div className='mb-1'>Password:</div>
-						<input
-							id='password'
-							type='text'
-							autoComplete='off'
-							placeholder='Write password'
-						/>
-					</div>
-					<div className='flex justify-between items-center'>
-						<button
-							type='submit'
-							id='addPassword'
-							className='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300'
-						>
-							Create
-						</button>
-						<button
-							type='button'
-							onClick={() => handleFormClick(isCreating)}
-							className='bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 focus:outline-none focus:ring focus:border-blue-300'
-						>
-							Cancel
-						</button>
-					</div>
-				</form>
-			)} */}
 		</div>
 	)
 }

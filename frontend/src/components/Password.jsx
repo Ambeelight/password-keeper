@@ -148,14 +148,13 @@ const Password = () => {
 			) : (
 				<div className='dark:text-white'>
 					<div className='mb-4 dark:text-indigo-500'>
-						<div>
-							<strong>Name:</strong> {password.name}
-						</div>
-						<div>
-							<strong>Description:</strong> {password.description}
-						</div>
-						<div>
-							<strong>Password:</strong> {password.password}
+						<div className='grid grid-cols-[auto,1fr] gap-x-4'>
+							<div className='font-bold'>Name:</div>
+							<div className='dark: text-pink-500'>{password.name}</div>
+							<div className='font-bold'>Description:</div>
+							<div className='dark: text-pink-500'>{password.description}</div>
+							<div className='font-bold'>Password:</div>
+							<div className='dark: text-pink-500'>{password.password}</div>
 						</div>
 					</div>
 					<div className='flex justify-between'>
